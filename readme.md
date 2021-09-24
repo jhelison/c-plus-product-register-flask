@@ -9,6 +9,20 @@
     <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white" />
 </div>
 
+# Description
+
+A firebird database helper to register products on a C-plus system.
+
+## Characteristics
+
+-   Uses a firebird ORM build build by me
+-   Makes requests on a firebird server
+-   Acess the product, price and stock tables to make modifications
+
+## How to run
+
+To start using the server, install it with `poetry install` to add all the dependences. And them run the server with the `src/App.py`.
+
 ## Bugs found
 
 -   Found bug where json.dumps passed to Flask return as a parsed string
