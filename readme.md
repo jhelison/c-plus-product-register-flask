@@ -21,7 +21,9 @@ A firebird database helper to register products on a C-plus system.
 
 ## How to run
 
-To start using the server, install it with `poetry install` to add all the dependences. And them run the server with the `src/App.py`.
+To start using the server, install it with `poetry install` to add all the dependences.
+Change the database path on `.env` to your database path.
+And them run the server with the `src/App.py`.
 
 ## Bugs found
 
