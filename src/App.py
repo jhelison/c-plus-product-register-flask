@@ -15,4 +15,4 @@ def home():
 api.add_resource(Products, "/products/")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5151, threaded=True)
+    app.run(host="0.0.0.0", port=5151, threaded=True, debug=True)
