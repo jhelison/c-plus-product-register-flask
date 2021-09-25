@@ -1,4 +1,5 @@
 from __future__ import annotations
+from datetime import datetime
 import sys
 from typing import Union
 
@@ -73,7 +74,7 @@ class ProductStock(FDBModel):
     __tablename__ = "PRODUTOESTOQUE"
 
     CODPROD = Column(is_primary_key=True)
-    CODEMPRESA = Column()
+    CODEMPRESA = Column(is_primary_key=True)
     CODSETORESTOQUE = Column()
     ESTATU = Column()
     LAST_CHANGE = Column()
@@ -88,6 +89,7 @@ class ProductStock(FDBModel):
         self.LAST_CHANGE = LAST_CHANGE
 
     def json(self) -> str:
+        self.update()
         return self.convert_to_JSON(
             {
                 "CODEMPRESA": self.CODEMPRESA,
@@ -97,6 +99,10 @@ class ProductStock(FDBModel):
                 "LAST_CHANGE": self.LAST_CHANGE,
             }
         )
+
+    def update(self) -> None:
+        self.LAST_CHANGE = datetime.now()
+        return super().update()
 
 
 class ProductPrice(FDBModel):
