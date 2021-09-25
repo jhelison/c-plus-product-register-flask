@@ -43,7 +43,7 @@ It have two basic endpoints `/products` and `/stock`
 ### /products
 
 ```http
-  GET /leads?NOMEPROD={product name}
+  GET /products?NOMEPROD={product name}
 ```
 
 The NOMEPROD uses a non exact search of the item.
@@ -74,7 +74,7 @@ Returns the list of products in the database as a array:
 ### /stock
 
 ```http
-  GET /leads?CODPROD={product code}
+  GET /stock?CODPROD={product code}
 ```
 
 Return the stock for the specified product.
@@ -90,7 +90,7 @@ Return the stock for the specified product.
 ```
 
 ```http
-  PATCH /leads?CODPROD={product code}
+  PATCH /stock?CODPROD={product code}
 ```
 
 Updates the product stock for the specified product code.
