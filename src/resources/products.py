@@ -6,13 +6,12 @@ from models.product import ProductModel
 
 class Products(Resource):
     def get(self):
-        query = request.args.get("query")
-        # ?query=product%20name
+        NOMEPROD = request.args.get("NOMEPROD")
 
         try:
-            if query:
+            if NOMEPROD:
                 products = ProductModel.find_by_columns(
-                    NOMEPROD=query, exact=False, page=1, limit=50
+                    NOMEPROD=NOMEPROD, exact=False, page=1, limit=50
                 )
             else:
                 products = ProductModel.all(page=1, limit=50)
