@@ -89,7 +89,6 @@ class ProductStock(FDBModel):
         self.LAST_CHANGE = LAST_CHANGE
 
     def json(self) -> str:
-        self.update()
         return self.convert_to_JSON(
             {
                 "CODEMPRESA": self.CODEMPRESA,
