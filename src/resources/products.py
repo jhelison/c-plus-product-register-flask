@@ -7,14 +7,20 @@ from models.product import ProductModel
 class Products(Resource):
     def get(self):
         NOMEPROD = request.args.get("NOMEPROD")
+        PAGE = request.args.get("PAGE")
+
+        try:
+            PAGE = int(PAGE)
+        except:
+            PAGE = 1
 
         try:
             if NOMEPROD:
                 products = ProductModel.find_by_columns(
-                    NOMEPROD=NOMEPROD, exact=False, page=1, limit=50
+                    NOMEPROD=NOMEPROD, exact=False, page=PAGE, limit=50
                 )
             else:
-                products = ProductModel.all(page=1, limit=50)
+                products = ProductModel.all(page=PAGE, limit=50)
         except Exception as e:
             return {"message": "Erro ao pesquisar o produto", "error": str(e)}, 500
 
