@@ -25,3 +25,18 @@ class Products(Resource):
             return {"message": "Erro ao pesquisar o produto", "error": str(e)}, 500
 
         return [product.json() for product in products]
+
+
+class ProductDetail(Resource):
+    def get(self, id):
+
+        try:
+            product = ProductModel.find_by_key(id)
+
+            if not product:
+                return {"message": "Produto não encontrado"}, 404
+
+        except Exception as e:
+            return {"message": "Erro ao pesquisar o produto", "error": str(e)}, 500
+
+        return product.json()

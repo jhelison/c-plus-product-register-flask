@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 
-from resources.products import Products
+from resources.products import Products, ProductDetail
 from resources.stock import Stock
 
 app = Flask(__name__)
@@ -14,6 +14,7 @@ def home():
 
 
 api.add_resource(Products, "/products/")
+api.add_resource(ProductDetail, "/products/<id>")
 api.add_resource(Stock, "/stock/")
 
 if __name__ == "__main__":
