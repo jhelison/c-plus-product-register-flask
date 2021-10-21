@@ -16,6 +16,8 @@ class ProductModel(FDBModel):
     UNIDADE = Column()
     DESCMAXIMO = Column()
     FLAGINATIVO = Column()
+    FLAGNAOVENDER = Column()
+    FLAGCONTROLAESTOQUE = Column()
 
     def __init__(
         self,
@@ -25,18 +27,18 @@ class ProductModel(FDBModel):
         UNIDADE: str,
         DESCMAXIMO: int,
         FLAGINATIVO: Union[str, bool],
+        FLAGNAOVENDER: Union[str, bool],
+        FLAGCONTROLAESTOQUE: Union[str, bool],
     ) -> None:
         self.CODPROD = CODPROD
         self.CODIGO = CODIGO
         self.NOMEPROD = NOMEPROD
         self.UNIDADE = UNIDADE
         self.DESCMAXIMO = DESCMAXIMO
-        self.FLAGINATIVO = FLAGINATIVO
 
-        if isinstance(FLAGINATIVO, str):
-            self.FLAGINATIVO = FLAGINATIVO == "Y"
-        else:
-            self.FLAGINATIVO = FLAGINATIVO
+        self.FLAGINATIVO = self.process_boolean(FLAGINATIVO)
+        self.FLAGNAOVENDER = self.process_boolean(FLAGNAOVENDER)
+        self.FLAGCONTROLAESTOQUE = self.process_boolean(FLAGCONTROLAESTOQUE)
 
     def json(self) -> str:
         stock = self.get_stock()
@@ -50,8 +52,10 @@ class ProductModel(FDBModel):
                 "UNIDADE": self.UNIDADE,
                 "DESCMAXIMO": self.DESCMAXIMO,
                 "FLAGINATIVO": self.FLAGINATIVO,
-                "ESTOQUE": stock.json() if stock else None,
+                "FLAGNAOVENDER": self.FLAGNAOVENDER,
+                "FLAGCONTROLAESTOQUE": self.FLAGCONTROLAESTOQUE,
                 "PRECO": price.PRECO if price else None,
+                "ESTOQUE": stock.json() if stock else None,
             }
         )
 
@@ -68,6 +72,13 @@ class ProductModel(FDBModel):
         if product_price:
             return product_price[0]
         return None
+
+    @staticmethod
+    def process_boolean(tag):
+        if isinstance(tag, str):
+            return tag == "Y"
+        else:
+            return "Y" if tag else "N"
 
 
 class ProductStock(FDBModel):
