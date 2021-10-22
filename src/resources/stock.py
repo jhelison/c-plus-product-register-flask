@@ -2,7 +2,7 @@ from flask import request
 from flask_restful import Resource, reqparse
 import json
 
-from models.product import ProductStock
+from models.firebird.product import ProductStock
 
 
 class Stock(Resource):
@@ -29,6 +29,8 @@ class Stock(Resource):
         CODPROD = request.args.get("CODPROD")
         amount = Stock.args.parse_args()["amount"]
 
+        print(amount)
+
         if not amount:
             return 400
 
@@ -40,9 +42,10 @@ class Stock(Resource):
             if not stock:
                 return {"message": "Nenhum produto encontrado"}, 404
 
-            stock.ESTATU = amount
-            stock.commit()
+            stock.ESTATU = float(stock.ESTATU) + amount
+            stock.update()
         except Exception as e:
+            print(e)
             return {"message": "Erro ao salvar o produto", "error": str(e)}, 500
 
         return stock.json()
