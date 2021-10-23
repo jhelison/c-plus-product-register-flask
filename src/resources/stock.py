@@ -1,8 +1,9 @@
 from flask import request
 from flask_restful import Resource, reqparse
-import json
+from flask_jwt_extended import jwt_required, get_jwt
 
 from models.firebird.product import ProductStock
+from models.sqlite.update import UpdateModel
 
 
 class Stock(Resource):
@@ -25,11 +26,12 @@ class Stock(Resource):
 
         return stock[0].json()
 
+    @jwt_required()
     def patch(self):
         CODPROD = request.args.get("CODPROD")
         amount = Stock.args.parse_args()["amount"]
 
-        print(amount)
+        user_id = get_jwt()["sub"]
 
         if not amount:
             return 400
@@ -44,6 +46,10 @@ class Stock(Resource):
 
             stock.ESTATU = float(stock.ESTATU) + amount
             stock.update()
+
+            update = UpdateModel(user_id=user_id, product_code=CODPROD)
+            update.save_update()
+
         except Exception as e:
             print(e)
             return {"message": "Erro ao salvar o produto", "error": str(e)}, 500

@@ -3,6 +3,8 @@ from datetime import datetime
 import sys
 from typing import Union
 
+from models.sqlite.update import UpdateModel
+
 sys.path.insert(0, "./")
 from src.ORM.FDB_handler import FDBModel, Column
 

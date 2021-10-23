@@ -6,6 +6,7 @@ import os
 from resources.products import Products, ProductDetail
 from resources.stock import Stock
 from resources.authentication import Authentication
+from resources.update import Update
 
 from resources.user import User
 
@@ -34,6 +35,7 @@ api.add_resource(Products, "/products/")
 api.add_resource(ProductDetail, "/products/<id>")
 api.add_resource(Stock, "/stock/")
 api.add_resource(Authentication, "/auth/")
+api.add_resource(Update, "/updates/<id>")
 
 api.add_resource(User, "/users/", "/users/<id>", endpoint="users")
 
