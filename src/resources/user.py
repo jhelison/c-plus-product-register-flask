@@ -21,7 +21,7 @@ class User(Resource):
     def put(self, id=None):
         args = User.args.parse_args()
 
-        if UserModel.user_exists(args["phone_id"]):
+        if UserModel.find_by_phone(args["phone_id"]):
             return {"message": "Usuario já existente"}, 400
 
         user = UserModel(**args)

@@ -1,10 +1,11 @@
 from flask import Flask
 from flask_restful import Api
-from flask_sqlalchemy import SQLAlchemy
+from flask_jwt_extended import JWTManager
 import os
 
 from resources.products import Products, ProductDetail
 from resources.stock import Stock
+from resources.authentication import Authentication
 
 from resources.user import User
 
@@ -14,7 +15,9 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{database_path}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = False
+app.config["JWT_SECRET_KEY"] = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9"
 api = Api(app)
+jwt = JWTManager(app)
 
 
 @app.route("/")
@@ -30,6 +33,7 @@ def buildDatabase():
 api.add_resource(Products, "/products/")
 api.add_resource(ProductDetail, "/products/<id>")
 api.add_resource(Stock, "/stock/")
+api.add_resource(Authentication, "/auth/")
 
 api.add_resource(User, "/users/", "/users/<id>", endpoint="users")
 

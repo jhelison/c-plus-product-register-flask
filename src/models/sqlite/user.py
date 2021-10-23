@@ -16,9 +16,11 @@ class UserModel(db.Model):
         return None
 
     @classmethod
-    def user_exists(cls, phone_id):
+    def find_by_phone(cls, phone_id):
         user = cls.query.filter_by(phone_id=phone_id).first()
-        return bool(user)
+        if user:
+            return user
+        return None
 
     def as_dict(self):
         return {
