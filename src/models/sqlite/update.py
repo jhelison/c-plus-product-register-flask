@@ -1,4 +1,4 @@
-from src.App import db
+from sql_alchemy import db
 from datetime import datetime
 
 
