@@ -4,6 +4,7 @@ from flask_jwt_extended import jwt_required, get_jwt
 
 from models.firebird.product import ProductStock
 from models.sqlite.update import UpdateModel
+from models.firebird.product import ProductModel
 
 
 class Stock(Resource):
@@ -49,6 +50,15 @@ class Stock(Resource):
 
             update = UpdateModel(user_id=user_id, product_code=CODPROD, quantity=amount)
             update.save_update()
+
+            product = ProductModel.find_by_key(CODPROD)
+
+            print(product)
+
+            if product:
+                product.FLAGCONTROLAESTOQUE = True
+                product.update()
+                product.commit()
 
         except Exception as e:
             print(e)

@@ -75,6 +75,12 @@ class ProductModel(FDBModel):
             return product_price[0]
         return None
 
+    def update(self) -> None:
+        self.FLAGCONTROLAESTOQUE = self.process_boolean(self.FLAGCONTROLAESTOQUE)
+        self.FLAGINATIVO = self.process_boolean(self.FLAGINATIVO)
+        self.FLAGNAOVENDER = self.process_boolean(self.FLAGNAOVENDER)
+        return super().update()
+
     @staticmethod
     def process_boolean(tag):
         if isinstance(tag, str):
