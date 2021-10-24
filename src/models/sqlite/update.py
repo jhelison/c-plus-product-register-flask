@@ -6,9 +6,10 @@ from models.sqlite.user import UserModel
 
 class UpdateModel(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, nullable=False)
     product_code = db.Column(db.String(18), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    quantity = db.Column(db.Integer, nullable=False)
 
     @classmethod
     def find_by_product_code(cls, product_code):
@@ -23,6 +24,7 @@ class UpdateModel(db.Model):
             "user": user.as_dict(),
             "product_code": self.product_code,
             "created_at": str(self.created_at),
+            "quantity": self.quantity,
         }
 
     def save_update(self):

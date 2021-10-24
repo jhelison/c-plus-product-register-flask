@@ -47,7 +47,7 @@ class Stock(Resource):
             stock.ESTATU = float(stock.ESTATU) + amount
             stock.update()
 
-            update = UpdateModel(user_id=user_id, product_code=CODPROD)
+            update = UpdateModel(user_id=user_id, product_code=CODPROD, quantity=amount)
             update.save_update()
 
         except Exception as e:
