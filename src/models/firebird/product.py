@@ -2,6 +2,7 @@ from __future__ import annotations
 from datetime import datetime
 import sys
 from typing import Union
+from decouple import config
 
 from models.sqlite.update import UpdateModel
 
@@ -62,7 +63,9 @@ class ProductModel(FDBModel):
         )
 
     def get_stock(self) -> ProductStock:
-        product_stock = ProductStock.find_by_columns(CODPROD=self.CODPROD, CODEMPRESA=1)
+        product_stock = ProductStock.find_by_columns(
+            CODPROD=self.CODPROD, CODEMPRESA=config("CODEMPRESA")
+        )
         if product_stock:
             return product_stock[0]
         return None

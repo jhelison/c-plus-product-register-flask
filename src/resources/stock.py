@@ -1,6 +1,7 @@
 from flask import request
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import jwt_required, get_jwt
+from decouple import config
 
 from models.firebird.product import ProductStock
 from models.sqlite.update import UpdateModel
@@ -18,7 +19,9 @@ class Stock(Resource):
             return 400
 
         try:
-            stock = ProductStock.find_by_columns(CODPROD=CODPROD, CODEMPRESA=1)
+            stock = ProductStock.find_by_columns(
+                CODPROD=CODPROD, CODEMPRESA=config("CODEMPRESA")
+            )
             if not stock:
                 return {"message": "Nenhum produto encontrado"}, 404
 
@@ -41,7 +44,9 @@ class Stock(Resource):
             return 400
 
         try:
-            stock = ProductStock.find_by_columns(CODPROD=CODPROD, CODEMPRESA=1)[0]
+            stock = ProductStock.find_by_columns(
+                CODPROD=CODPROD, CODEMPRESA=config("CODEMPRESA")
+            )[0]
             if not stock:
                 return {"message": "Nenhum produto encontrado"}, 404
 
@@ -53,15 +58,12 @@ class Stock(Resource):
 
             product = ProductModel.find_by_key(CODPROD)
 
-            print(product)
-
             if product:
                 product.FLAGCONTROLAESTOQUE = True
                 product.update()
                 product.commit()
 
         except Exception as e:
-            print(e)
             return {"message": "Erro ao salvar o produto", "error": str(e)}, 500
 
         return stock.json()

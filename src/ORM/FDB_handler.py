@@ -189,8 +189,6 @@ class FDBModel:
             " AND ".join([key + " = ?" for key in primary_key]),
         )
 
-        print(query, params)
-
         for key in primary_key:
             params.append(self.__dict__[key])
 
