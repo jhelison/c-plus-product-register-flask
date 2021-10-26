@@ -16,6 +16,18 @@ class UpdateModel(db.Model):
         updates = cls.query.filter_by(product_code=product_code)
         return updates
 
+    @classmethod
+    def get_last_for_code(cls, product_code):
+        update = (
+            cls.query.filter_by(product_code=product_code)
+            .order_by(cls.created_at.desc())
+            .first()
+        )
+        if update:
+            return update
+        else:
+            return None
+
     def as_dict(self):
         user = UserModel.find_user(self.user_id)
 

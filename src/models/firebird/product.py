@@ -47,6 +47,8 @@ class ProductModel(FDBModel):
         stock = self.get_stock()
         price = self.get_price()
 
+        last_stock_update = UpdateModel.get_last_for_code(self.CODPROD)
+
         return self.convert_to_JSON(
             {
                 "CODPROD": self.CODPROD,
@@ -59,6 +61,9 @@ class ProductModel(FDBModel):
                 "FLAGCONTROLAESTOQUE": self.FLAGCONTROLAESTOQUE,
                 "PRECO": price.PRECO if price else None,
                 "ESTOQUE": stock.json() if stock else None,
+                "last_stock_update": last_stock_update.as_dict()
+                if last_stock_update
+                else None,
             }
         )
 
